@@ -1,0 +1,50 @@
+name: Atualizar economia
+
+on:
+  schedule:
+    - cron: '15 3,9,15,21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-economia
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Restaurar dados anteriores
+        run: |
+          if git fetch --depth=1 origin data 2>/dev/null; then
+            git show FETCH_HEAD:economia.json > public/data/economia.json
+          fi
+          cp public/data/economia.json "$RUNNER_TEMP/previous.json"
+
+      - name: Coletar notícias e indicadores
+        run: node scripts/build-economia.mjs
+
+      - name: Publicar na branch data
+        run: |
+          if cmp -s public/data/economia.json "$RUNNER_TEMP/previous.json"; then
+            echo "Sem alterações nos dados."
+            exit 0
+          fi
+          cp public/data/economia.json "$RUNNER_TEMP/economia.json"
+          git config user.name "rafa-feed-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan data
+          git rm -rf --quiet .
+          cp "$RUNNER_TEMP/economia.json" economia.json
+          git add economia.json
+          git commit --quiet -m "dados: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push --force origin data

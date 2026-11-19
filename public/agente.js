@@ -307,7 +307,7 @@ Educar e orientar pessoas sobre investimentos de forma SIMPLES, CLARA e OBJETIVA
             { role: 'user', content: question }
         ];
         
-        // Chama a Netlify Function (API segura no servidor)
+        // Chama a Pages Function (API segura no servidor)
         const response = await fetch(`${API_BASE}/agent`, {
             method: 'POST',
             headers: {

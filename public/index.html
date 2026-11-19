@@ -6,9 +6,12 @@
     <title>rafaInvest - Dashboard Educacional de Investimentos</title>
     <meta name="description" content="Plataforma educacional para aprender sobre investimentos: CDB, FIIs, Tesouro Direto, Criptomoedas e mais.">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="style.css?v=30">
-    <link rel="stylesheet" href="quiz.css?v=3">
+    <link rel="stylesheet" href="style.css?v=33">
+    <link rel="stylesheet" href="quiz.css?v=5">
+    <link rel="stylesheet" href="refine.css?v=20">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
 </head>
 <body>
     
@@ -30,54 +33,24 @@
             </svg>
         </button>
 
-        <!-- Overlay Mobile -->
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-logo">
-                <svg width="220" height="60" viewBox="0 0 220 60" style="display: block; position: relative; z-index: 100;">
-                    <defs>
-                        <linearGradient id="gradient-logo" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#A855F7;stop-opacity:1" />
-                        </linearGradient>
-                        <filter id="glow">
-                            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                            <feMerge>
-                                <feMergeNode in="coloredBlur"/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    
-                    <!-- Ícone do gráfico -->
-                    <g transform="translate(5, 12)">
-                        <path d="M5 32 L12 27 L19 22 L26 12 L33 16 L40 5" 
-                              stroke="url(#gradient-logo)" 
-                              stroke-width="3.5" 
-                              fill="none" 
-                              stroke-linecap="round" 
-                              stroke-linejoin="round"
-                              filter="url(#glow)"/>
-                        <circle cx="12" cy="27" r="3.5" fill="url(#gradient-logo)" filter="url(#glow)"/>
-                        <circle cx="19" cy="22" r="3.5" fill="url(#gradient-logo)" filter="url(#glow)"/>
-                        <circle cx="26" cy="12" r="4" fill="url(#gradient-logo)" filter="url(#glow)"/>
-                        <circle cx="33" cy="16" r="3.5" fill="url(#gradient-logo)" filter="url(#glow)"/>
-                        <circle cx="40" cy="5" r="4" fill="url(#gradient-logo)" filter="url(#glow)"/>
-                    </g>
-                    
-                    <!-- Texto "rafaInvest" -->
-                    <text x="58" y="38" 
-                          font-family="'Poppins', sans-serif" 
-                          font-size="28" 
-                          font-weight="800" 
-                          letter-spacing="-0.5"
-                          fill="#E5E7EB">rafa<tspan fill="url(#gradient-logo)" filter="url(#glow)">Invest</tspan></text>
-                </svg>
+                <a class="brand-lockup" href="index.html" aria-label="rafaInvest">
+                    <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="brandMark" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#5B8CFF"/>
+                                <stop offset="100%" stop-color="#2DD4BF"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="32" height="32" rx="9" fill="url(#brandMark)"/>
+                        <path d="M7 21.5 12.5 16l4 3.5L25 10.5" fill="none" stroke="#06142A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="25" cy="10.5" r="2.1" fill="#06142A"/>
+                    </svg>
+                    <span class="brand-word">rafa<b>Invest</b></span>
+                </a>
             </div>
-
             <nav>
                 <ul class="sidebar-nav">
                     <li class="sidebar-nav-item">
@@ -93,7 +66,7 @@
                             <svg class="icon">
                                 <use href="svgs/icons.svg#icon-book"></use>
                             </svg>
-                            <span>Como Começar</span>
+                            <span>Como começar</span>
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
@@ -104,15 +77,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="sidebar-nav-item">
-                        <a href="#" class="sidebar-nav-link" data-page="news">
-                            <svg class="icon">
-                                <use href="svgs/icons.svg#icon-news"></use>
-                            </svg>
-                            <span>Notícias</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-nav-item">
+                                        <li class="sidebar-nav-item">
                         <a href="#" class="sidebar-nav-link" data-page="calculators">
                             <svg class="icon">
                                 <use href="svgs/icons.svg#icon-calculator"></use>
@@ -133,7 +98,7 @@
                             <svg class="icon">
                                 <use href="svgs/icons.svg#icon-wallet"></use>
                             </svg>
-                            <span>Tipos de Rendas</span>
+                            <span>Tipos de renda</span>
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
@@ -141,7 +106,16 @@
                             <svg class="icon">
                                 <use href="svgs/icons.svg#icon-lightbulb"></use>
                             </svg>
-                            <span>Quiz Financeiro</span>
+                            <span>Quiz</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="economia.html" class="sidebar-nav-link">
+                            <svg class="icon">
+                                <use href="svgs/icons.svg#icon-bank"></use>
+                            </svg>
+                            <span>Economia &amp; Notícias</span>
+
                         </a>
                     </li>
                     
@@ -154,7 +128,7 @@
                             <svg class="icon">
                                 <use href="svgs/icons.svg#icon-trending-up"></use>
                             </svg>
-                            <span>Recomendações de Hoje</span>
+                            <span>Recomendações</span>
                         </a>
                     </li>
                 </ul>
@@ -173,6 +147,7 @@
                     <div class="hero-buttons">
                         <button class="btn-hero-primary" onclick="document.querySelector('[data-page=getting-started]').click()">Comece Agora</button>
                         <button class="btn-hero-secondary" onclick="document.querySelector('[data-page=dashboard]').click()">Ver Dashboard</button>
+                        <button class="btn-hero-secondary" onclick="window.location.href='economia.html'">Economia &amp; Notícias</button>
                     </div>
                 </div>
             </div>
@@ -207,7 +182,7 @@
                                     Um painel educacional para te ajudar a entender o básico de investimentos e entrar nesse mundo com confiança. Aqui você vai aprender sobre as principais opções do mercado, descobrir seu perfil de investidor e fazer simulações práticas.
                                 </p>
                                 <p style="font-size: 0.875rem; color: var(--accent-primary); line-height: 1.6; margin: 0 0 1rem 0; font-weight: 600;">
-                                    💬 <strong>Conheça o Rafaelo:</strong> Seu consultor financeiro IA que responde suas dúvidas sobre investimentos de forma simples e personalizada, 24/7!
+                                    <strong>Conheça o Rafaelo:</strong> Seu consultor financeiro IA que responde suas dúvidas sobre investimentos de forma simples e personalizada, 24/7!
                                 </p>
                                 <button class="btn btn-primary rafaelo-btn" onclick="openAgentModal()" style="display: inline-flex; align-items: center; gap: 0.625rem;">
                                     <img src="rafaelo-avatar.png" alt="Rafaelo" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; image-rendering: auto; flex-shrink: 0; border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
@@ -355,28 +330,7 @@
 
                 </section>
 
-                <!-- ========================================
-                     PÁGINA: NOTÍCIAS
-                     ======================================== -->
-                <section class="page-section" id="page-news">
-                    
-                    <!-- Filtros de Fonte -->
-                    <div class="card mb-3" style="padding: 1rem 1.5rem;">
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <button class="btn btn-primary" data-source="all">Todas as Fontes</button>
-                            <button class="btn btn-outline" data-source="InfoMoney">InfoMoney</button>
-                            <button class="btn btn-outline" data-source="Mercado">Mercado</button>
-                            <button class="btn btn-outline" data-source="Bloomberg">Bloomberg</button>
-                            <button class="btn btn-outline" data-source="Reuters">Reuters</button>
-                        </div>
-                    </div>
 
-                    <!-- Grid de Notícias -->
-                    <div class="cards-grid" id="newsGrid">
-                        <!-- Injetado via JS -->
-                    </div>
-
-                </section>
 
                 <!-- ========================================
                      PÁGINA: CALCULADORAS
@@ -570,31 +524,6 @@
                      ======================================== -->
                 <section class="page-section" id="page-income-types">
                     <div style="max-width: 900px; margin: 0 auto;">
-                        <!-- Header Elegante -->
-                        <div class="card mb-4" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.2); padding: 2.5rem; position: relative; overflow: hidden;">
-                            <!-- Decoração de fundo -->
-                            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%); pointer-events: none;"></div>
-                            
-                            <div style="display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 1;">
-                                <!-- Ícone grande -->
-                                <div style="flex-shrink: 0; width: 72px; height: 72px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">
-                                    <svg class="icon" style="width: 38px; height: 38px; color: var(--success-color);">
-                                        <use href="svgs/icons.svg#icon-wallet"></use>
-                                    </svg>
-                                </div>
-                                
-                                <!-- Conteúdo -->
-                                <div style="flex: 1;">
-                                    <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.375rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.75rem; letter-spacing: -0.02em;">
-                                        Tipos de Rendas
-                                    </h2>
-                                    <p style="font-size: 0.9375rem; color: var(--text-light); line-height: 1.6; margin: 0;">
-                                        Entenda as diferentes formas de gerar renda e construa sua estratégia de liberdade financeira
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Renda Ativa -->
                         <div class="card mb-4">
                             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
@@ -619,7 +548,7 @@
                             </div>
 
                             <div style="background: rgba(239, 68, 68, 0.05); padding: 1.25rem; border-radius: 0.75rem; border-left: 4px solid #EF4444; margin-bottom: 1.5rem;">
-                                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.75rem;">📌 Exemplos de Renda Ativa:</h4>
+                                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.75rem;">Exemplos de Renda Ativa:</h4>
                                 <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-dark); line-height: 1.8;">
                                     <li><strong>Salário CLT:</strong> Trabalho como funcionário em uma empresa</li>
                                     <li><strong>Autônomo:</strong> Prestação de serviços (designer, programador, eletricista)</li>
@@ -631,7 +560,7 @@
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                                 <div style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: 0.5rem;">
-                                    <div style="font-weight: 600; color: var(--success); margin-bottom: 0.5rem;">✅ Vantagens:</div>
+                                    <div style="font-weight: 600; color: var(--success); margin-bottom: 0.5rem;">Vantagens:</div>
                                     <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: var(--text-dark); line-height: 1.6;">
                                         <li>Renda imediata e previsível</li>
                                         <li>Controle total sobre seus ganhos</li>
@@ -640,7 +569,7 @@
                                     </ul>
                                 </div>
                                 <div style="background: rgba(239, 68, 68, 0.08); padding: 1rem; border-radius: 0.5rem;">
-                                    <div style="font-weight: 600; color: var(--danger); margin-bottom: 0.5rem;">⚠️ Desvantagens:</div>
+                                    <div style="font-weight: 600; color: var(--danger); margin-bottom: 0.5rem;">Desvantagens:</div>
                                     <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: var(--text-dark); line-height: 1.6;">
                                         <li>Limitada por suas horas de trabalho</li>
                                         <li>Não escala sem aumentar o tempo</li>
@@ -675,7 +604,7 @@
                             </div>
 
                             <div style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: 0.75rem; border-left: 4px solid #10B981; margin-bottom: 1.5rem;">
-                                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.75rem;">📌 Exemplos de Renda Passiva:</h4>
+                                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.75rem;">Exemplos de Renda Passiva:</h4>
                                 <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-dark); line-height: 1.8;">
                                     <li><strong>Dividendos:</strong> Lucros distribuídos por ações e FIIs</li>
                                     <li><strong>Juros:</strong> Rendimento de CDB, Tesouro Direto, poupança</li>
@@ -687,7 +616,7 @@
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                                 <div style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: 0.5rem;">
-                                    <div style="font-weight: 600; color: var(--success); margin-bottom: 0.5rem;">✅ Vantagens:</div>
+                                    <div style="font-weight: 600; color: var(--success); margin-bottom: 0.5rem;">Vantagens:</div>
                                     <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: var(--text-dark); line-height: 1.6;">
                                         <li>Renda contínua sem trabalho ativo</li>
                                         <li>Liberdade de tempo</li>
@@ -696,7 +625,7 @@
                                     </ul>
                                 </div>
                                 <div style="background: rgba(239, 68, 68, 0.08); padding: 1rem; border-radius: 0.5rem;">
-                                    <div style="font-weight: 600; color: var(--danger); margin-bottom: 0.5rem;">⚠️ Desvantagens:</div>
+                                    <div style="font-weight: 600; color: var(--danger); margin-bottom: 0.5rem;">Desvantagens:</div>
                                     <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: var(--text-dark); line-height: 1.6;">
                                         <li>Requer capital ou tempo inicial</li>
                                         <li>Demora para gerar resultados</li>
@@ -731,7 +660,7 @@
                             </div>
 
                             <div style="background: rgba(59, 130, 246, 0.05); padding: 1.25rem; border-radius: 0.75rem; border-left: 4px solid #3B82F6; margin-bottom: 1.5rem;">
-                                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.75rem;">📌 Exemplos de Renda Recorrente:</h4>
+                                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.75rem;">Exemplos de Renda Recorrente:</h4>
                                 <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-dark); line-height: 1.8;">
                                     <li><strong>SaaS:</strong> Software como serviço (Netflix, Spotify, etc.)</li>
                                     <li><strong>Assinaturas:</strong> Clubes, memberships, cursos mensais</li>
@@ -742,7 +671,7 @@
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                                 <div style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: 0.5rem;">
-                                    <div style="font-weight: 600; color: var(--success); margin-bottom: 0.5rem;">✅ Vantagens:</div>
+                                    <div style="font-weight: 600; color: var(--success); margin-bottom: 0.5rem;">Vantagens:</div>
                                     <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: var(--text-dark); line-height: 1.6;">
                                         <li>Previsibilidade de receita</li>
                                         <li>Escalável com automação</li>
@@ -751,7 +680,7 @@
                                     </ul>
                                 </div>
                                 <div style="background: rgba(239, 68, 68, 0.08); padding: 1rem; border-radius: 0.5rem;">
-                                    <div style="font-weight: 600; color: var(--danger); margin-bottom: 0.5rem;">⚠️ Desvantagens:</div>
+                                    <div style="font-weight: 600; color: var(--danger); margin-bottom: 0.5rem;">Desvantagens:</div>
                                     <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: var(--text-dark); line-height: 1.6;">
                                         <li>Risco de cancelamentos</li>
                                         <li>Precisa manter qualidade</li>
@@ -765,7 +694,7 @@
                         <!-- Estratégia Combinada -->
                         <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)); border: 2px solid rgba(99, 102, 241, 0.2);">
                             <div style="text-align: center; margin-bottom: 1.5rem;">
-                                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.5rem;">🎯 Estratégia Inteligente</h3>
+                                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.5rem;">Estratégia Inteligente</h3>
                                 <p style="color: var(--text-dark); font-size: 0.9375rem;">Combine os três tipos para construir riqueza sustentável</p>
                             </div>
 
@@ -831,37 +760,13 @@
                      ======================================== -->
                 <section class="page-section" id="page-quiz">
                     <div style="max-width: 800px; margin: 0 auto;">
-                        <!-- Header Elegante -->
-                        <div class="card mb-4" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(251, 191, 36, 0.2); padding: 2.5rem; position: relative; overflow: hidden;">
-                            <!-- Decoração de fundo -->
-                            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%); pointer-events: none;"></div>
-                            
-                            <div style="display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 1;">
-                                <!-- Ícone grande -->
-                                <div style="flex-shrink: 0; width: 72px; height: 72px; background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);">
-                                    <svg class="icon" style="width: 38px; height: 38px; color: #F59E0B;">
-                                        <use href="svgs/icons.svg#icon-lightbulb"></use>
-                                    </svg>
-                                </div>
-                                
-                                <!-- Conteúdo -->
-                                <div style="flex: 1;">
-                                    <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.375rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.75rem; letter-spacing: -0.02em;">
-                                        Quiz Financeiro
-                                    </h2>
-                                    <p style="font-size: 0.9375rem; color: var(--text-light); line-height: 1.6; margin: 0;">
-                                        Teste seus conhecimentos sobre finanças e investimentos de forma divertida!
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                         <div id="quizContainer" class="card">
                             <div id="quizIntro" style="text-align: center; padding: 2rem 0;">
-                                <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+                                <div class="quiz-intro-icon"><svg class="icon"><use href="svgs/icons.svg#icon-target"></use></svg></div>
                                 <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem;">Pronto para o desafio?</h3>
                                 <p style="color: var(--text-light); margin-bottom: 2rem; line-height: 1.7;">
                                     São <strong>12 perguntas</strong> sobre finanças pessoais e investimentos.<br>
-                                    No final, você receberá um resultado criativo e engraçado! 😄
+                                    No final, você receberá um resultado criativo e engraçado!
                                 </p>
                                 <button class="btn btn-primary" onclick="startQuiz()" style="font-size: 1.125rem; padding: 0.875rem 2rem;">Começar Quiz!</button>
                             </div>
@@ -1050,7 +955,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="agente.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=4"></script>
 
 </body>
 </html>

@@ -13,7 +13,6 @@ const state = {
         cryptos: [],
         fiis: [],
         cdbs: [],
-        news: [],
         educacao: null,
         benchmark: { cdi: 11.75, selic: 11.75, inflation: 4.5 },
         lastManualUpdate: null
@@ -38,6 +37,21 @@ async function initializeApp() {
         await loadDashboardData();
     }
     
+    const hashPage = location.hash.slice(1);
+    if (hashPage === 'news') {
+        window.location.replace('economia.html#noticias');
+        return;
+    }
+    if (hashPage === 'recomendacoes') {
+        openRecommendationsModal();
+        return;
+    }
+    const hasDeepLink = hashPage && hashPage !== 'home' && document.getElementById(`page-${hashPage}`);
+    if (hasDeepLink) {
+        navigateToPage(hashPage);
+        return;
+    }
+
     // Mostrar modal de recomendações na primeira visita
     showWelcomeModal();
 }
@@ -47,8 +61,9 @@ function setupNavigation() {
     const navLinks = document.querySelectorAll('.sidebar-nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
             const page = link.dataset.page;
+            if (!page) return;
+            e.preventDefault();
             navigateToPage(page);
         });
     });
@@ -81,7 +96,7 @@ function navigateToPage(page) {
     loadPageData(page);
     
     // Fechar sidebar mobile
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 1100) {
         closeMobileSidebar();
     }
     
@@ -102,10 +117,6 @@ function updatePageHeader(page) {
         dashboard: {
             title: 'Dashboard de Investimentos',
             subtitle: 'Acompanhe cotações e dados em tempo real'
-        },
-        news: {
-            title: 'Notícias do Mercado',
-            subtitle: 'Últimas novidades do mundo financeiro'
         },
         calculators: {
             title: 'Calculadoras Financeiras',
@@ -130,9 +141,12 @@ function updatePageHeader(page) {
     // Atualizar hero ao invés do header antigo
     const heroTitle = document.getElementById('heroTitle');
     const heroSubtitle = document.getElementById('heroSubtitle');
-    
+
     if (heroTitle) heroTitle.textContent = header.title;
     if (heroSubtitle) heroSubtitle.textContent = header.subtitle;
+
+    const heroSection = document.getElementById('heroSection');
+    if (heroSection) heroSection.classList.toggle('is-compact', page !== 'home');
 }
 
 async function loadPageData(page) {
@@ -150,9 +164,6 @@ async function loadPageData(page) {
             break;
         case 'dashboard':
             await loadDashboardData();
-            break;
-        case 'news':
-            await loadNews();
             break;
         case 'profile':
             renderProfileQuiz();
@@ -176,20 +187,6 @@ function setupFilters() {
             e.target.classList.remove('btn-outline');
             e.target.classList.add('btn-primary');
         }
-        
-        // Filtros de fonte de notícias
-        if (e.target.matches('[data-source]')) {
-            const source = e.target.dataset.source;
-            applyNewsFilter(source);
-            
-            // Atualiza visual dos botões
-            document.querySelectorAll('[data-source]').forEach(btn => {
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-outline');
-            });
-            e.target.classList.remove('btn-outline');
-            e.target.classList.add('btn-primary');
-        }
     });
     
     // Search input
@@ -199,18 +196,6 @@ function setupFilters() {
             searchAssets(e.target.value);
         });
     }
-}
-
-function applyNewsFilter(source) {
-    const cards = document.querySelectorAll('#newsGrid .card');
-    cards.forEach(card => {
-        const cardSource = card.dataset.source;
-        if (source === 'all' || cardSource === source) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
 }
 
 function applyAssetFilter(filter) {
@@ -266,25 +251,18 @@ function searchAssets(query) {
 // ===== MENU MOBILE =====
 function setupMobileMenu() {
     const toggleBtn = document.getElementById('mobileMenuToggle');
-    const overlay = document.getElementById('sidebarOverlay');
     const sidebar = document.getElementById('sidebar');
     
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
             const isActive = sidebar.classList.toggle('active');
-            overlay.classList.toggle('active', isActive);
             document.body.classList.toggle('menu-open', isActive);
         });
-    }
-    
-    if (overlay) {
-        overlay.addEventListener('click', closeMobileSidebar);
     }
 }
 
 function closeMobileSidebar() {
     document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('sidebarOverlay').classList.remove('active');
     document.body.classList.remove('menu-open');
 }
 
@@ -1213,85 +1191,6 @@ function updateLastUpdateTime() {
 }
 
 // ===== NOTÍCIAS =====
-async function loadNews() {
-    showLoading(true);
-    
-    try {
-        const newsRes = await fetchWithCache(`${API_BASE}/news`, 'news', 1800000); // 30min
-        state.data.news = newsRes?.news || [];
-        
-        renderNews();
-    } catch (error) {
-        console.error('Erro ao carregar notícias:', error);
-        state.data.news = [];
-        renderNews();
-    } finally {
-        showLoading(false);
-    }
-}
-
-function renderNews() {
-    const grid = document.getElementById('newsGrid');
-    if (!grid) return;
-    
-    if (state.data.news.length === 0) {
-        grid.innerHTML = `
-            <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                <svg class="icon" style="width: 64px; height: 64px; margin: 0 auto 1rem; color: var(--text-muted);">
-                    <use href="svgs/icons.svg#icon-news"></use>
-                </svg>
-                <h3 style="color: var(--text-dark); margin-bottom: 0.5rem;">Nenhuma notícia disponível</h3>
-                <p style="color: var(--text-muted);">Tente novamente mais tarde.</p>
-            </div>
-        `;
-        return;
-    }
-    
-    // Atualiza os botões de filtro com as fontes disponíveis
-    updateNewsSourceButtons();
-    
-    grid.innerHTML = state.data.news.slice(0, 12).map(article => `
-        <div class="card" data-source="${article.source || 'Desconhecido'}">
-            ${article.image ? `<img src="${article.image}" alt="${article.title}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem 0.5rem 0 0; margin: -1.5rem -1.5rem 1rem;">` : ''}
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <span class="badge badge-info">${article.source || 'Desconhecido'}</span>
-                <span style="font-size: 0.75rem; color: var(--text-light);">${getTimeAgo(article.pubDate)}</span>
-            </div>
-            
-            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-dark); line-height: 1.4;">
-                ${article.title}
-            </h3>
-            
-            <p style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 1rem; line-height: 1.6;">
-                ${(article.description || '').substring(0, 120)}...
-            </p>
-            
-            <a href="${article.link}" target="_blank" class="btn btn-outline" style="width: 100%;">
-                <svg class="icon"><use href="svgs/icons.svg#icon-arrow-right"></use></svg>
-                Ler completa
-            </a>
-        </div>
-    `).join('');
-}
-
-function updateNewsSourceButtons() {
-    // Pega as fontes únicas disponíveis
-    const sources = [...new Set(state.data.news.map(n => n.source).filter(Boolean))];
-    
-    // Encontra o container dos botões
-    const buttonContainer = document.querySelector('#page-news .card div[style*="display: flex"]');
-    if (!buttonContainer) return;
-    
-    // Reconstrói os botões com as fontes reais
-    buttonContainer.innerHTML = `
-        <button class="btn btn-primary" data-source="all">Todas as Fontes</button>
-        ${sources.map(source => `
-            <button class="btn btn-outline" data-source="${source}">${source}</button>
-        `).join('')}
-    `;
-}
-
 // ===== CALCULADORAS =====
 document.getElementById('financingForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -1405,7 +1304,7 @@ function showProfileResult(profile) {
                 labels: Object.keys(profile.allocation),
                 datasets: [{
                     data: Object.values(profile.allocation),
-                    backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#EF4444']
+                    backgroundColor: ['#0F2A52', '#2D5BE3', '#8FB0F5', '#C9A24B']
                 }]
             },
             options: {
@@ -1946,82 +1845,57 @@ async function loadRecommendations() {
 
 function renderRecommendations(recs, benchmark) {
     const body = document.getElementById('recommendationsBody');
-    
+
+    const stat = (label, value) => `
+        <div class="rec-stat">
+            <span class="rec-stat-label">${label}</span>
+            <span class="rec-stat-value">${value}</span>
+        </div>`;
+
     body.innerHTML = `
-        <div style="margin-bottom: 1.5rem; text-align: center;">
-            <p style="font-size: 0.9375rem; color: var(--text-light); line-height: 1.6;">
-                Aqui estão sugestões baseadas em dados <strong style="color: var(--success);">atualizados automaticamente</strong> do mercado hoje (${new Date().toLocaleDateString('pt-BR')}). 
-                Escolha de acordo com seu perfil de risco e objetivos financeiros.
-            </p>
-            <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.03) 100%); border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2);">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <svg class="icon" style="width: 16px; height: 16px; color: var(--success);">
-                        <use href="svgs/icons.svg#icon-check-circle"></use>
-                    </svg>
-                    <span style="font-size: 0.875rem; font-weight: 600; color: var(--success);">Dados Oficiais em Tempo Real</span>
-                </div>
-                <div style="font-size: 0.8125rem; color: var(--text-dark); line-height: 1.5;">
-                    <strong>CDI:</strong> ${benchmark.cdi}% a.a. | <strong>SELIC:</strong> ${benchmark.selic}% a.a. | <strong>IPCA (12m):</strong> ${benchmark.inflation.toFixed(2)}%<br>
-                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
-                        Fonte: Banco Central do Brasil (BCB) - Atualização automática diária
-                    </span>
-                </div>
+        <div class="rec-intro">
+            <p>Sugestões baseadas em dados atualizados do mercado hoje (${new Date().toLocaleDateString('pt-BR')}). Escolha de acordo com seu perfil de risco e seus objetivos.</p>
+            <div class="rec-benchmark">
+                ${stat('CDI', `${benchmark.cdi}% a.a.`)}
+                ${stat('Selic', `${benchmark.selic}% a.a.`)}
+                ${stat('IPCA 12 meses', `${benchmark.inflation.toFixed(2)}%`)}
             </div>
+            <span class="rec-source">Fonte: Banco Central do Brasil, atualização diária</span>
         </div>
-        
-        <div style="display: grid; gap: 1.5rem;">
+
+        <div class="rec-groups">
             ${Object.entries(recs).map(([key, risk]) => `
-                <div style="border: 2px solid ${risk.color}; border-radius: 12px; padding: 1.5rem; background: linear-gradient(135deg, ${risk.color}10 0%, transparent 100%);">
-                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                        <div style="width: 40px; height: 40px; background: ${risk.color}; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                            <svg class="icon" style="width: 24px; height: 24px; color: white;">
-                                <use href="svgs/icons.svg#${risk.icon}"></use>
-                            </svg>
-                        </div>
-                        <h4 style="font-family: 'Poppins', sans-serif; font-size: 1.125rem; font-weight: 700; color: ${risk.color}; margin: 0;">
-                            ${risk.title}
-                        </h4>
-                    </div>
-                    
-                    <div style="display: grid; gap: 1rem;">
+                <section class="rec-group">
+                    <header class="rec-group-head">
+                        <span class="rec-group-icon">
+                            <svg class="icon"><use href="svgs/icons.svg#${risk.icon}"></use></svg>
+                        </span>
+                        <h4>${risk.title}</h4>
+                        <span class="rec-dot" style="background: ${risk.color};"></span>
+                    </header>
+                    <div class="rec-options">
                         ${risk.options.map(opt => `
-                            <div style="background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                                    <div style="flex: 1;">
-                                        <div style="font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">${opt.name}</div>
-                                        <div style="font-size: 0.8125rem; color: var(--text-muted);">${opt.description}</div>
-                                    </div>
-                                    <span style="background: ${risk.color}20; color: ${risk.color}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; white-space: nowrap; margin-left: 0.5rem;">
-                                        ${opt.tag}
-                                    </span>
+                            <article class="rec-option">
+                                <div class="rec-option-main">
+                                    <div class="rec-option-name">${opt.name}</div>
+                                    <div class="rec-option-desc">${opt.description}</div>
                                 </div>
-                                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.9375rem; font-weight: 700; color: ${risk.color};">
-                                    📈 ${opt.return}
+                                <div class="rec-option-side">
+                                    <span class="rec-option-return">${opt.return}</span>
+                                    <span class="rec-option-tag">${opt.tag}</span>
                                 </div>
-                            </div>
+                            </article>
                         `).join('')}
                     </div>
-                </div>
+                </section>
             `).join('')}
         </div>
-        
-        <div style="margin-top: 1.5rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%); border-radius: 12px; border-left: 4px solid var(--accent-primary);">
-            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
-                <div style="width: 24px; height: 24px; min-width: 24px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <span style="color: white; font-size: 14px; font-weight: 700; line-height: 1;">i</span>
-                </div>
-                <div>
-                    <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem; font-size: 0.9375rem;">Importante:</strong>
-                    <p style="font-size: 0.875rem; color: var(--text-light); margin: 0; line-height: 1.6;">
-                        Rentabilidade passada não garante retornos futuros. Diversifique seus investimentos e invista apenas o que pode perder. 
-                        Explore a seção <strong>Educação Financeira</strong> para entender melhor cada opção.
-                    </p>
-                </div>
-            </div>
-        </div>
+
+        <p class="rec-disclaimer">
+            <strong>Importante:</strong> rentabilidade passada não garante retornos futuros. Diversifique e invista apenas o que pode perder. Veja a seção Educação para entender cada opção.
+        </p>
     `;
 }
-
 // ===== QUIZ FINANCEIRO =====
 const quizQuestions = [
     {
@@ -2189,7 +2063,7 @@ function selectAnswer(selectedIndex) {
     `;
     explanation.innerHTML = `
         <div style="font-weight: 600; color: ${isCorrect ? 'var(--success)' : 'var(--danger)'}; margin-bottom: 0.5rem; font-size: 1rem;">
-            ${isCorrect ? '✅ Correto!' : '❌ Ops! Resposta errada'}
+            ${isCorrect ? 'Correto!' : 'Ops! Resposta errada'}
         </div>
         <p style="color: var(--text-dark); margin: 0; line-height: 1.6; font-size: 0.9375rem;">
             ${question.explanation}
