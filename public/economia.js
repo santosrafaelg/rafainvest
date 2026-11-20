@@ -387,6 +387,7 @@
     }
     const cfg = chartConfig(chartKind, data.series);
     if (state.chart) state.chart.destroy();
+    const compact = window.matchMedia('(max-width: 640px)').matches;
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 320);
     gradient.addColorStop(0, 'rgba(45, 91, 227, 0.16)');
@@ -398,12 +399,13 @@
         datasets: [{
           label: cfg.label, data: cfg.values, borderColor: '#2D5BE3', backgroundColor: gradient, fill: true,
           borderWidth: 2, tension: cfg.stepped ? 0 : 0.3, stepped: cfg.stepped ? 'before' : false,
-          pointRadius: cfg.values.length > 60 ? 0 : 2.5, pointHoverRadius: 4, pointBackgroundColor: '#2D5BE3'
+          pointRadius: compact || cfg.values.length > 60 ? 0 : 2.5, pointHoverRadius: 4, pointBackgroundColor: '#2D5BE3'
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: compact ? { top: 6, right: 4 } : { top: 6, right: 8 } },
         interaction: { intersect: false, mode: 'index' },
         plugins: {
           legend: { display: false },
@@ -413,8 +415,8 @@
           }
         },
         scales: {
-          x: { grid: { display: false }, ticks: { maxTicksLimit: 8, color: '#6B7280', font: { size: 10, family: 'Inter' } } },
-          y: { grid: { color: 'rgba(148, 163, 184, 0.16)' }, ticks: { color: '#6B7280', font: { size: 10, family: 'Inter' }, callback: (v) => `${cfg.prefix || ''}${fmt(v, 1)}${cfg.suffix || ''}` } }
+          x: { grid: { display: false }, ticks: { maxTicksLimit: compact ? 4 : 8, maxRotation: compact ? 0 : 50, autoSkipPadding: 12, color: '#6B7280', font: { size: 10, family: 'Inter' } } },
+          y: { grid: { color: 'rgba(148, 163, 184, 0.16)' }, ticks: { maxTicksLimit: compact ? 5 : 8, color: '#6B7280', font: { size: 10, family: 'Inter' }, callback: (v) => `${cfg.prefix || ''}${fmt(v, 1)}${cfg.suffix || ''}` } }
         }
       }
     });
@@ -583,6 +585,7 @@
 
   async function init() {
     bind();
+    window.matchMedia('(max-width: 640px)').addEventListener('change', () => { if (state.data && window.Chart) drawChart(); });
     const apply = (data) => {
       if (state.data && Date.parse(data.generatedAt) <= Date.parse(state.data.generatedAt)) return;
       render(data);

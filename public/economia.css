@@ -182,7 +182,7 @@ img { display: block; max-width: 100%; }
 .eco-kpi-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.5rem; margin: 0.45rem 0 0.35rem; }
 .eco-kpi-value { font-size: 1.4rem; font-weight: 650; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .eco-kpi-value small { font-size: 0.68rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
-.eco-kpi .eco-spark { width: 64px; height: 28px; color: var(--tone); flex-shrink: 0; opacity: 0.9; }
+.eco-kpi .eco-spark { width: 64px; height: 28px; color: var(--tone); flex-shrink: 0; opacity: 0.9; overflow: hidden; }
 .eco-kpi-foot { display: flex; flex-direction: column; gap: 0.1rem; font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
 
 .eco-delta { font-weight: 600; font-size: 0.7rem; font-variant-numeric: tabular-nums; }
@@ -400,8 +400,11 @@ img { display: block; max-width: 100%; }
     .eco-tips { grid-template-columns: 1fr; }
     .eco-section { margin-top: 3.5rem; }
     .hide-sm { display: none; }
-    .eco-chart { height: 250px; }
-    .eco-panel { padding: 1.15rem; }
+    .eco-chart { height: 220px; }
+    .eco-panel { padding: 1.15rem 0.9rem; }
+    .eco-kpi { padding: 0.9rem 0.85rem 0.8rem; }
+    .eco-kpi-row { flex-wrap: wrap; align-items: stretch; row-gap: 0.4rem; }
+    .eco-kpi .eco-spark { flex: 1 1 100%; width: 100%; max-width: 100%; height: 26px; }
     .eco-tabs { width: 100%; }
     .eco-lead-body { padding: 1.4rem; }
     .eco-snapshot { padding: 1.3rem; }
