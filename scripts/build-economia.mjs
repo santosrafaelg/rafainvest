@@ -16,7 +16,8 @@ const JUNK_RE = /\b(mega-?sena|lotofacil|quina\b|loteria|loterias|horoscopo|sign
 const GNEWS_SITES = [
   'valor.globo.com', 'g1.globo.com', 'infomoney.com.br', 'folha.uol.com.br', 'estadao.com.br', 'exame.com',
   'cnnbrasil.com.br', 'uol.com.br', 'agenciabrasil.ebc.com.br', 'moneytimes.com.br', 'seudinheiro.com',
-  'bloomberglinea.com.br', 'poder360.com.br', 'istoedinheiro.com.br', 'noticias.uol.com.br', 'oglobo.globo.com'
+  'bloomberglinea.com.br', 'poder360.com.br', 'istoedinheiro.com.br', 'noticias.uol.com.br', 'oglobo.globo.com',
+  'forbes.com.br'
 ].map((s) => `site:${s}`).join(' OR ');
 
 const GNEWS_QUERIES = [
@@ -43,6 +44,19 @@ const FEEDS = [
   { id: 'moneytimes', name: 'Money Times', url: 'https://www.moneytimes.com.br/feed/', limit: 12 },
   { id: 'seudinheiro', name: 'Seu Dinheiro', url: 'https://www.seudinheiro.com/feed/', limit: 12 },
   { id: 'braziljournal', name: 'Brazil Journal', url: 'https://braziljournal.com/feed/', limit: 15 },
+  { id: 'istoedinheiro', name: 'IstoÉ Dinheiro', url: 'https://istoedinheiro.com.br/feed/', limit: 15 },
+  { id: 'suno', name: 'Suno', url: 'https://www.suno.com.br/noticias/feed/', limit: 10 },
+  { id: 'investing', name: 'Investing.com', url: 'https://br.investing.com/rss/news_25.rss', limit: 10 },
+  // forbes.com.br bloqueia leitura direta (403); acessado via Google Notícias
+  {
+    id: 'gn-forbes',
+    name: 'Forbes Brasil',
+    url: `https://news.google.com/rss/search?q=${encodeURIComponent('site:forbes.com.br (economia OR mercado OR juros OR investimentos OR bolsa OR dólar OR inflação) when:14d')}&hl=pt-BR&gl=BR&ceid=BR:pt-419`,
+    limit: 20,
+    aggregated: true,
+    pillar: 'economia',
+    topic: 'mercado'
+  },
   { id: 'poder360', name: 'Poder360', url: 'https://www.poder360.com.br/feed/', limit: 12, onlyEconomic: true },
   { id: 'camara', name: 'Agência Câmara', url: 'https://www.camara.leg.br/noticias/rss/ultimas-noticias', limit: 20, onlyEconomic: true },
   { id: 'bcb', name: 'Banco Central', url: 'https://www.bcb.gov.br/api/feed/sitebcb/sitefeeds/noticias', limit: 10 },
