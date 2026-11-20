@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economia, Política e Financiamentos | rafaInvest</title>
+    <meta name="description" content="Acompanhe diariamente Selic, inflação, câmbio, política fiscal e taxas de financiamento, com notícias das principais fontes e explicações simples de como tudo isso afeta o seu bolso.">
+    <meta name="theme-color" content="#0A1A33">
+    <meta property="og:title" content="Economia, Política e Financiamentos | rafaInvest">
+    <meta property="og:description" content="Indicadores, notícias e taxas de financiamento atualizados todos os dias, com explicações simples do impacto da política econômica no seu bolso.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+    <link rel="stylesheet" href="economia.css?v=5">
+</head>
+<body>
+
+    <header class="eco-nav">
+        <div class="eco-nav-inner">
+            <a class="eco-brand" href="index.html" aria-label="rafaInvest — início">
+                <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="ecoMark" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#5B8CFF"/>
+                            <stop offset="100%" stop-color="#2DD4BF"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="32" height="32" rx="9" fill="url(#ecoMark)"/>
+                    <path d="M7 21.5 12.5 16l4 3.5L25 10.5" fill="none" stroke="#06142A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="25" cy="10.5" r="2.1" fill="#06142A"/>
+                </svg>
+                <span class="eco-wordmark">rafa<b>Invest</b></span>
+            </a>
+            <button class="eco-nav-toggle" id="navToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="eco-nav-links" id="navLinks" aria-label="Principal">
+                <a href="index.html#home">Educação</a>
+                <a href="index.html#getting-started">Como começar</a>
+                <a href="index.html#dashboard">Dashboard</a>
+                <a href="index.html#calculators">Calculadoras</a>
+                <a href="index.html#profile">Projeções &amp; Perfil</a>
+                <a href="index.html#income-types">Tipos de renda</a>
+                <a href="index.html#quiz">Quiz</a>
+                <a href="economia.html" class="active" aria-current="page">Economia &amp; Notícias</a>
+                <a href="index.html#recomendacoes" class="eco-nav-rec">Recomendações</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="eco-hero">
+        <div class="eco-hero-inner">
+            <div class="eco-hero-copy">
+                <div class="eco-live" role="status"><span class="eco-pulse" aria-hidden="true"></span><span id="updatedAt">Carregando dados…</span><span class="eco-live-sep" aria-hidden="true">·</span><span id="sourceCount"></span></div>
+                <h1>Entenda a economia<br><em>antes</em> de investir.</h1>
+                <p>Juros, inflação, câmbio, política fiscal e taxas de financiamento em um só lugar. Dados oficiais do Banco Central e notícias das principais redações, atualizados todos os dias.</p>
+                <div class="eco-hero-cta">
+                    <a class="eco-btn primary" href="#noticias">Ver notícias do dia</a>
+                    <a class="eco-btn ghost" href="#financiamentos">Taxas de financiamento</a>
+                </div>
+            </div>
+            <aside class="eco-snapshot" id="snapshot" aria-label="Taxa Selic">
+                <div class="eco-skeleton dark"></div>
+            </aside>
+        </div>
+    </section>
+
+    <main class="eco-main">
+
+        <section class="eco-kpis" aria-label="Indicadores econômicos">
+            <div class="eco-kpi-grid" id="kpiGrid">
+                <div class="eco-skeleton"></div>
+            </div>
+        </section>
+
+        <div class="eco-alert" id="loadError" hidden>
+            Não foi possível carregar os dados agora. Tente novamente em alguns minutos.
+        </div>
+
+        <section class="eco-section" id="destaques" aria-labelledby="h-destaques">
+            <div class="eco-section-head">
+                <div>
+                    <span class="eco-kicker">Agora no radar</span>
+                    <h2 id="h-destaques">Destaques do dia</h2>
+                </div>
+            </div>
+            <div class="eco-highlights" id="highlights">
+                <div class="eco-skeleton tall"></div>
+                <div class="eco-skeleton tall"></div>
+            </div>
+        </section>
+
+        <section class="eco-section" id="noticias" aria-labelledby="h-noticias">
+            <div class="eco-section-head">
+                <div>
+                    <span class="eco-kicker">Notícias</span>
+                    <h2 id="h-noticias">Economia, política e crédito</h2>
+                </div>
+                <span class="eco-count-pill" id="newsCount" aria-live="polite"></span>
+            </div>
+
+            <div class="eco-toolbar">
+                <div class="eco-tabs" id="pillarTabs" role="tablist" aria-label="Categoria"></div>
+                <label class="eco-search">
+                    <svg class="eco-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <span class="sr-only">Buscar notícia</span>
+                    <input id="searchInput" type="search" placeholder="Buscar: Selic, dólar, consignado…" autocomplete="off">
+                </label>
+            </div>
+            <div class="eco-chips" id="topicChips" aria-label="Filtrar por tema"></div>
+
+            <div class="eco-grid" id="newsGrid"></div>
+            <div class="eco-more"><button class="eco-btn outline" id="loadMore" type="button" hidden>Carregar mais notícias</button></div>
+        </section>
+
+        <section class="eco-section" id="indicadores" aria-labelledby="h-indicadores">
+            <div class="eco-section-head">
+                <div>
+                    <span class="eco-kicker">Indicadores</span>
+                    <h2 id="h-indicadores">Para onde a economia está indo</h2>
+                </div>
+            </div>
+            <div class="eco-split">
+                <article class="eco-panel" id="chartCard">
+                    <header class="eco-panel-head">
+                        <h3>Histórico</h3>
+                        <div class="eco-chips compact" id="chartTabs"></div>
+                    </header>
+                    <div class="eco-chart"><canvas id="mainChart" aria-label="Gráfico de histórico" role="img"></canvas></div>
+                    <p class="eco-note" id="chartCaption"></p>
+                    <p class="eco-note chart-fallback">O gráfico não pôde ser carregado.</p>
+                </article>
+                <article class="eco-panel">
+                    <header class="eco-panel-head">
+                        <h3>O que o mercado espera</h3>
+                    </header>
+                    <table class="eco-table" id="focusTable"></table>
+                    <p class="eco-note"><span id="focusDate"></span> · mediana das projeções de instituições financeiras. As setas comparam com a semana anterior.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="eco-section" id="impactos" aria-labelledby="h-impactos">
+            <div class="eco-section-head">
+                <div>
+                    <span class="eco-kicker">Política econômica na prática</span>
+                    <h2 id="h-impactos">Como as decisões do governo chegam ao seu bolso</h2>
+                </div>
+            </div>
+            <p class="eco-lead-text">Quatro peças movem quase tudo: os juros definidos pelo Banco Central, a inflação, o câmbio e as contas públicas. Veja o que costuma acontecer quando cada uma delas sobe ou desce.</p>
+
+            <div class="eco-impacts">
+                <article class="eco-impact tone-indigo">
+                    <header><span class="eco-impact-icon"><svg class="eco-icon" aria-hidden="true"><use href="svgs/icons.svg#icon-bank"></use></svg></span><div><h3>Juros (Selic)</h3><p>Definida pelo Copom, é a taxa básica que influencia todas as outras.</p></div></header>
+                    <div class="eco-scenarios">
+                        <div class="up"><strong>Quando sobe</strong><ul><li>Financiamentos e cartão ficam mais caros</li><li>Renda fixa pós-fixada rende mais</li><li>Bolsa e FIIs tendem a perder atratividade</li></ul></div>
+                        <div class="down"><strong>Quando cai</strong><ul><li>Crédito e parcelas ficam mais baratos</li><li>Renda fixa rende menos</li><li>Bolsa e FIIs costumam ganhar força</li></ul></div>
+                    </div>
+                </article>
+
+                <article class="eco-impact tone-amber">
+                    <header><span class="eco-impact-icon"><svg class="eco-icon" aria-hidden="true"><use href="svgs/icons.svg#icon-trending-up"></use></svg></span><div><h3>Inflação (IPCA)</h3><p>Mede o aumento dos preços e corrói o poder de compra.</p></div></header>
+                    <div class="eco-scenarios">
+                        <div class="up"><strong>Quando sobe</strong><ul><li>Seu dinheiro compra menos</li><li>O Banco Central tende a elevar os juros</li><li>Títulos atrelados ao IPCA protegem melhor</li></ul></div>
+                        <div class="down"><strong>Quando cai</strong><ul><li>Poder de compra preservado</li><li>Abre espaço para corte de juros</li><li>Rentabilidade real da renda fixa aumenta</li></ul></div>
+                    </div>
+                </article>
+
+                <article class="eco-impact tone-blue">
+                    <header><span class="eco-impact-icon"><svg class="eco-icon" aria-hidden="true"><use href="svgs/icons.svg#icon-money"></use></svg></span><div><h3>Câmbio (dólar)</h3><p>Afeta combustíveis, eletrônicos, viagens e o custo de produção.</p></div></header>
+                    <div class="eco-scenarios">
+                        <div class="up"><strong>Quando sobe</strong><ul><li>Importados e insumos ficam mais caros</li><li>Pressiona a inflação</li><li>Exportadoras ganham competitividade</li></ul></div>
+                        <div class="down"><strong>Quando cai</strong><ul><li>Importações e viagens ficam mais baratas</li><li>Alivia a inflação</li><li>Investimentos em dólar rendem menos em reais</li></ul></div>
+                    </div>
+                </article>
+
+                <article class="eco-impact tone-violet">
+                    <header><span class="eco-impact-icon"><svg class="eco-icon" aria-hidden="true"><use href="svgs/icons.svg#icon-building"></use></svg></span><div><h3>Contas públicas</h3><p>Gastos, impostos e dívida do governo definem a confiança do mercado.</p></div></header>
+                    <div class="eco-scenarios">
+                        <div class="up"><strong>Quando se deterioram</strong><ul><li>Juros futuros e dólar tendem a subir</li><li>Aumenta a chance de novos impostos</li><li>Investidores exigem mais retorno para financiar o país</li></ul></div>
+                        <div class="down"><strong>Quando melhoram</strong><ul><li>Juros longos tendem a recuar</li><li>Mais espaço para o Banco Central cortar a Selic</li><li>Bolsa e crédito costumam reagir bem</li></ul></div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="eco-section" id="financiamentos" aria-labelledby="h-fin">
+            <div class="eco-section-head">
+                <div>
+                    <span class="eco-kicker">Crédito e financiamento</span>
+                    <h2 id="h-fin">Quanto custa financiar hoje</h2>
+                </div>
+                <a class="eco-btn primary sm" href="index.html#calculators">Simular meu financiamento</a>
+            </div>
+
+            <article class="eco-panel flush">
+                <header class="eco-panel-head">
+                    <div>
+                        <h3>Financiamento imobiliário: menores taxas</h3>
+                        <p class="eco-sub" id="housingMonth"></p>
+                    </div>
+                    <div class="eco-chips compact" id="housingTabs"></div>
+                </header>
+                <div class="eco-rates" id="housingGrid"></div>
+                <p class="eco-note">Ranking das instituições com as menores taxas médias do mês. A taxa que você recebe depende de renda, prazo, valor de entrada e relacionamento com o banco; compare sempre o Custo Efetivo Total (CET).</p>
+            </article>
+
+            <article class="eco-panel flush">
+                <header class="eco-panel-head">
+                    <div>
+                        <h3>Crédito para pessoa física</h3>
+                        <p class="eco-sub" id="consumerPeriod"></p>
+                    </div>
+                </header>
+                <div class="eco-table-wrap"><table class="eco-table wide" id="consumerTable"></table></div>
+                <p class="eco-note">A barra usa escala logarítmica para comparar modalidades com taxas muito diferentes. Cartão rotativo e cheque especial estão entre as dívidas mais caras do mercado.</p>
+            </article>
+
+            <div class="eco-tips">
+                <article><span class="eco-tip-n">1</span><div><h4>Compare o CET, não só a taxa</h4><p>O Custo Efetivo Total soma juros, seguros e tarifas. É o número que mostra quanto o crédito realmente custa.</p></div></article>
+                <article><span class="eco-tip-n">2</span><div><h4>Cuide do tamanho da parcela</h4><p>Uma referência comum é manter a parcela abaixo de cerca de 30% da renda mensal, deixando folga para imprevistos.</p></div></article>
+                <article><span class="eco-tip-n">3</span><div><h4>Quanto maior a entrada, menor o custo</h4><p>Entrada maior reduz o valor financiado e o total de juros pagos ao longo do contrato.</p></div></article>
+                <article><span class="eco-tip-n">4</span><div><h4>Avalie portabilidade e amortização</h4><p>Você pode transferir a dívida para um banco com taxa menor e antecipar parcelas para abater juros futuros.</p></div></article>
+            </div>
+        </section>
+
+        <section class="eco-section eco-sources" aria-labelledby="h-fontes">
+            <h2 id="h-fontes">Fontes e transparência</h2>
+            <p>Indicadores, projeções e taxas de crédito vêm das bases abertas do <strong>Banco Central do Brasil</strong> (SGS, Expectativas de Mercado/Focus e Taxas de Juros). As notícias são de veículos de imprensa; mostramos título, um resumo curto e o link para a matéria original.</p>
+            <details>
+                <summary>Veículos monitorados</summary>
+                <ul class="eco-source-list" id="sourcesList"></ul>
+            </details>
+            <p class="eco-disclaimer">Conteúdo informativo e educacional. Não constitui recomendação de investimento, de crédito ou de contratação de qualquer produto financeiro. Rentabilidade passada não garante resultados futuros.</p>
+        </section>
+
+        <noscript><p class="eco-alert">Esta página precisa de JavaScript para exibir as notícias e indicadores.</p></noscript>
+    </main>
+
+    <footer class="eco-footer">
+        <div class="eco-footer-inner">
+            <div class="eco-footer-brand">
+                <span class="eco-wordmark">rafa<b>Invest</b></span>
+                <p>Educação financeira com dados reais, para decidir com mais clareza.</p>
+            </div>
+            <nav aria-label="Rodapé">
+                <a href="index.html">Voltar ao app</a>
+                <a href="index.html#calculators">Calculadoras</a>
+                <a href="index.html#quiz">Quiz financeiro</a>
+                <a href="#noticias">Notícias</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+    <script src="economia.js?v=3" defer></script>
+</body>
+</html>

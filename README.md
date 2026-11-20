@@ -1,186 +1,48 @@
-# 🚀 rafaInvest - Dashboard Educacional de Investimentos
+ # rafaInvest
 
-Plataforma educacional interativa para aprender sobre investimentos com dados reais do mercado brasileiro: Criptomoedas, FIIs, CDBs, Tesouro Direto e mais.
+Plataforma educacional para aprender sobre investimentos brasileiros, com conteúdo interativo, simuladores e dados de mercado.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-### 🎓 Educação Financeira
-- **6 Modalidades de Investimento**: CDB, FII, Tesouro Direto, Criptomoedas, Ações, Consórcio
-- **Perfis de Investidor**: Conservador, Moderado, Arrojado com questionário interativo
-- **Recomendações Inteligentes**: Sugestões personalizadas por nível de risco (Muito Baixo, Baixo, Moderado, Alto)
-- **Conteúdo Didático**: Explicações claras sobre cada tipo de investimento
+- Conteúdo sobre CDBs, FIIs, Tesouro Direto, criptomoedas, ações e consórcios.
+- Questionário de perfil e recomendações educacionais por nível de risco.
+- Painel com cotações de criptoativos, FIIs e CDBs.
+- Calculadoras de financiamento e juros compostos.
+- Página de economia com indicadores, notícias e taxas de crédito.
 
-### 📊 Dados em Tempo Real
-- **Criptomoedas**: Top 12 via CoinGecko API
-- **FIIs**: Cotações B3 via brapi.dev (KNRI11, HGLG11, etc)
-- **CDBs**: Taxas CDI/SELIC reais + simulação de 12 bancos
-- **Notícias**: RSS de InfoMoney, Valor Econômico, UOL Economia
-- **Benchmarks**: CDI 11.75%, SELIC 11.75%, IPCA 4.5%
+## Desenvolvimento
 
-### 🎨 Interface Profissional
-- **Design System Moderno**: Poppins, Inter, JetBrains Mono
-- **Responsivo**: Mobile-first, otimizado para todos os dispositivos
-- **Dark Theme**: Interface confortável para leitura prolongada
-- **Animações Suaves**: Transições e hover effects profissionais
-
-### 🧮 Calculadoras
-- **Financiamento**: Simule parcelas de imóveis e veículos
-- **Investimento**: Projete rendimentos com juros compostos
-
-## 📁 Estrutura do Projeto
-
-```
-rafaInvest/
-├── netlify/
-│   └── functions/
-│       ├── crypto.js      # API CoinGecko
-│       ├── fiis.js        # API brapi.dev FIIs
-│       ├── cdb.js         # Simulação CDBs + taxas
-│       └── news.js        # RSS agregador de notícias
-├── public/
-│   ├── index.html         # SPA structure
-│   ├── app.js             # Lógica principal
-│   ├── style.css          # Design system
-│   └── svgs/
-│       └── icons.svg      # Sprite de ícones
-├── package.json
-├── netlify.toml
-└── server-test.js         # Servidor local
-```
-└── README.md
-```
-
-## 🚀 Como Usar
-
-### Instalação
+Requer Node.js 18 ou superior.
 
 ```bash
-# Clone o projeto
-cd rafaInvest
-
-# Instale dependências
 npm install
+npm run dev
 ```
 
-### Desenvolvimento Local
+O Wrangler serve os arquivos de `public/` e as Pages Functions em `functions/`. A aplicação fica disponível no endereço local exibido pelo Wrangler.
 
-```bash
-# Servidor com Netlify Functions
-npm start
+Para credenciais locais, copie `.env.example` para `.dev.vars` e configure `BRAPI_API_KEY`. A chave é opcional para a Brapi e não deve ser commitada. Em produção, configure variáveis em **Cloudflare Dashboard > Workers & Pages > Settings > Variables and Secrets**.
 
-# Acesse: http://localhost:3000
-```
+## Cloudflare Pages
 
-### Deploy
+Conecte o repositório ao Cloudflare Pages e configure:
 
-#### Deploy Rápido no Netlify
+- Build command: `npm run build`
+- Build output directory: `public`
+- Root directory: `/`
 
-1. Crie conta em [netlify.com](https://netlify.com)
-2. Conecte seu repositório GitHub
-3. Configure:
-   - Build command: (vazio - static site)
-   - Publish directory: `public`
-   - Functions directory: `netlify/functions`
-4. Deploy automático!
-BRAPI_API_KEY=d6EkPxHiKsswXcbwg6wzzf
-```
+As funções em `functions/api/` são disponibilizadas em `/api/`. O chat requer o segredo `PERPLEXITY_API_KEY` configurado no ambiente Cloudflare.
 
-**Setup Netlify (produção):**
-1. Netlify Dashboard → Site Settings → Environment Variables
-2. Adicione: `BRAPI_API_KEY` = `d6EkPxHiKsswXcbwg6wzzf`
+## Dados de Economia
 
-**Limites com API key:**
-- Sem key: 15 req/min (gratuito)
-- Com key: 200+ req/min (dependendo do plano)
-- Obtenha sua key: https://brapi.dev/dashboard
+O script `npm run feed` coleta notícias e indicadores de fontes RSS e do Banco Central e atualiza `public/data/economia.json`. O workflow `.github/workflows/update-economia.yml` publica os dados na branch `data` quatro vezes ao dia e também pode ser acionado manualmente. Para alterar fontes, edite `FEEDS` e `GNEWS_QUERIES` em `scripts/build-economia.mjs`.
 
-### CORS (Se necessário)
-As functions já incluem headers CORS. Se usar domínio customizado, confirme origins em:
-- [crypto.js](netlify/functions/crypto.js#L8)
-- [fiis.js](netlify/functions/fiis.js#L31)
-- [cdb.js](netlify/functions/cdb.js#L21)
+## Tecnologias
 
-## 🛠️ Customização
+- HTML, CSS e JavaScript sem framework no frontend.
+- Cloudflare Pages Functions e APIs públicas no backend.
+- Chart.js para gráficos.
 
-### Ajustar Ativos Exibidos
-Em [app.js](public/app.js#L72-L77):
-```javascript
-const allAssets = [
-    ...state.cryptos.slice(0, 6), // Aumentar para 6 cryptos
-    ...state.fiis.slice(0, 3),     // Reduzir para 3 FIIs
-    ...state.cdbs.slice(0, 3)      // Reduzir para 3 CDBs
-];
-```
+## Aviso Legal
 
-### Alterar Intervalo de Refresh
-Em [app.js](public/app.js#L342):
-```javascript
-refreshInterval = setInterval(() => {
-    // ...
-}, 30000); // 30 segundos (padrão: 60000)
-```
-
-### Cores Neon
-Em [style.css](public/style.css#L5-L15) ou Tailwind config em [index.html](public/index.html#L23-L36):
-```javascript
-colors: {
-    neon: {
-        blue: '#00f0ff',    // Azul neon
-        pink: '#ff00ea',    // Rosa neon
-        purple: '#bf00ff',  // Roxo neon
-        green: '#00ff88',   // Verde neon
-        yellow: '#ffea00'   // Amarelo neon
-    }
-}
-```
-
-### Adicionar Watchlist
-LocalStorage já configurado. Para implementar UI:
-
-1. Adicione botão "⭐" nos cards:
-```html
-<button onclick="toggleWatchlist('${asset.id}')">
-    <i class="fas fa-star"></i>
-</button>
-
-
-## 🛠️ Tecnologias
-
-- **Frontend**: HTML5, CSS3 (Custom Design System), JavaScript Vanilla
-- **Fontes**: Google Fonts (Poppins, Inter, JetBrains Mono)
-- **APIs**: CoinGecko, brapi.dev
-- **Backend**: Netlify Functions (Serverless)
-- **Charts**: Chart.js 4.4.1
-- **Deployment**: Netlify
-
-## 📝 Licença
-
-MIT License - use livremente para projetos pessoais e educacionais.
-
-## 🤝 Contribuindo
-
-Melhorias são bem-vindas! Abra issues ou pull requests.
-
----
-
-**Desenvolvido com 💜 para educação financeira**
-
-## 🐛 Troubleshooting
-
-### Functions não carregam no Netlify Dev
-```bash
-# Verifique instalação do CLI
-netlify --version
-
-# Reinstale se necessário
-npm install -g netlify-cli@latest
-
-# Limpe cache
-rm -rf .netlify
-
-
-## ⚠️ Aviso Legal
-
-**Este é um projeto educacional**. As informações não constituem aconselhamento financeiro. Sempre consulte um profissional certificado antes de investir.
-
-Os dados são fornecidos por APIs de terceiros (CoinGecko, brapi.dev) e podem conter atrasos ou imprecisões.
+Este projeto é educacional e não constitui aconselhamento financeiro. Dados de terceiros podem conter atrasos ou imprecisões. Consulte um profissional certificado antes de investir.

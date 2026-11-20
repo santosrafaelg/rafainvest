@@ -1,42 +1,22 @@
-# Configuração do Rafaelo (Agente IA)
+# Configuração do Rafaelo
 
-## Variável de Ambiente Necessária
+O chat usa a API do Perplexity por meio da Pages Function `functions/api/agent.js`. A chave fica no servidor e não é enviada ao navegador.
 
-Para que o consultor financeiro Rafaelo funcione corretamente, você precisa configurar a chave da API do Perplexity no Netlify.
+## Cloudflare Pages
 
-### Como Configurar (Plano Gratuito)
+No painel do Cloudflare, abra **Workers & Pages > seu projeto > Settings > Variables and Secrets** e adicione `PERPLEXITY_API_KEY` como segredo. Faça um novo deploy para disponibilizar a variável às Pages Functions.
 
-1. Acesse o dashboard do seu site no Netlify
-2. Vá em **Site settings**
-3. Clique em **Environment variables** no menu lateral
-4. Clique em **Add a variable**
-5. Configure:
-   - **Key**: `PERPLEXITY_API_KEY`
-   - **Value**: Cole aqui a chave da API do Perplexity (veja no arquivo `.env.local`)
-   - **Scopes**: Marque **All scopes** (Deploy, Functions, Deploy Previews)
-6. Clique em **Create variable**
-7. Faça um novo deploy do site
+## Desenvolvimento Local
 
-### Desenvolvimento Local
+Copie `.env.example` para `.dev.vars`, preencha `PERPLEXITY_API_KEY` e inicie o Wrangler:
 
-Se quiser testar localmente com Netlify CLI:
-
-```bash
-# Instale o Netlify CLI (se ainda não tiver)
-npm install -g netlify-cli
-
-# Execute o servidor local
-netlify dev
+```powershell
+Copy-Item .env.example .dev.vars
+npm run dev
 ```
 
-O arquivo `.env.local` já está configurado para desenvolvimento local e não será commitado no Git.
+Não versione `.dev.vars`; ele já está listado no `.gitignore`.
 
-### Arquitetura
+## Teste
 
-- **Cliente** (`public/agente.js`): Interface do chat, sem chaves expostas
-- **Servidor** (`netlify/functions/agent.js`): Faz a chamada à API do Perplexity de forma segura
-- **Variável de Ambiente**: Chave da API armazenada com segurança no Netlify
-
-### Teste
-
-Após configurar, abra o site e clique em "Fale com o Rafaelo" para testar o consultor financeiro IA.
+Inicie o site local e use o botão de chat para verificar a integração. Sem a variável configurada, a função retorna HTTP 503.

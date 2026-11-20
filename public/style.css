@@ -10,7 +10,6 @@
     box-sizing: border-box;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
     /* Paleta Premium Profissional */
@@ -1997,15 +1996,6 @@ tbody tr:hover {
         height: 250px !important;
     }
     
-    /* News cards mobile */
-    .news-card {
-        flex-direction: column;
-    }
-    
-    .news-card img {
-        width: 100%;
-        height: 180px;
-    }
     
     /* Calculadoras mobile */
     .calculators-grid {
@@ -2635,18 +2625,6 @@ tbody tr:hover {
         font-size: 0.8125rem;
     }
     
-    /* News cards muito pequeno */
-    .news-card {
-        padding: 0.75rem;
-    }
-    
-    .news-card h3 {
-        font-size: 0.9375rem;
-    }
-    
-    .news-card p {
-        font-size: 0.75rem;
-    }
     
     /* Calculadoras muito pequenas */
     .calculator-result {
