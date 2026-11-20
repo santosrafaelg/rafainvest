@@ -2,7 +2,7 @@ name: Atualizar economia
 
 on:
   schedule:
-    - cron: '15 3,9,15,21 * * *'
+    - cron: '23 3,9,15,21 * * *'
   workflow_dispatch:
 
 permissions:
