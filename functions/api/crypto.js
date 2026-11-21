@@ -24,7 +24,7 @@ export async function onRequestGet() {
       sparkline: 'false',
       price_change_percentage: '24h'
     }), {
-      headers: { 'User-Agent': 'rafaInvest/1.0', 'Accept': 'application/json' }
+      headers: { 'User-Agent': 'rafaInveste/1.0', 'Accept': 'application/json' }
     });
 
     if (!res.ok) throw new Error(`CoinGecko HTTP ${res.status}`);

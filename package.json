@@ -16,7 +16,7 @@
     "investments",
     "cloudflare-pages"
   ],
-  "author": "rafaInvest",
+  "author": "rafaInveste",
   "license": "MIT",
   "devDependencies": {
     "wrangler": "^4.0.0"

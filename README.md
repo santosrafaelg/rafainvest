@@ -1,4 +1,4 @@
- # rafaInvest
+ # rafaInveste
 
 Plataforma educacional para aprender sobre investimentos brasileiros, com conteúdo interativo, simuladores e dados de mercado.
 

@@ -18,7 +18,7 @@ export async function onRequestGet({ env }) {
   const apiKey = env.BRAPI_API_KEY;
 
   try {
-    const headers = { 'User-Agent': 'rafaInvest/1.0', 'Accept': 'application/json' };
+    const headers = { 'User-Agent': 'rafaInveste/1.0', 'Accept': 'application/json' };
     if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
     const res = await fetch('https://brapi.dev/api/news?limit=15', { headers });
 

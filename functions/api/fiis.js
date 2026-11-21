@@ -32,7 +32,7 @@ export async function onRequestGet({ env }) {
   try {
     for (const ticker of TOP_FIIS) {
       try {
-        const headers = { 'User-Agent': 'rafaInvest/1.0', 'Accept': 'application/json' };
+        const headers = { 'User-Agent': 'rafaInveste/1.0', 'Accept': 'application/json' };
         if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
         const res = await fetch(`https://brapi.dev/api/quote/${ticker}?range=1d&fundamental=true`, { headers });
 

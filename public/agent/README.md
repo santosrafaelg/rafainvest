@@ -131,7 +131,7 @@ O agente usa `sessionStorage` para:
 - ✅ Limpar ao fechar a aba
 - ✅ Isolar conversas entre abas diferentes
 
-**Chave de armazenamento**: `rafaInvest_agent_history`
+**Chave de armazenamento**: `rafaInveste_agent_history`
 
 ## 🎯 Melhorias Futuras
 
