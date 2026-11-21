@@ -1,5 +1,5 @@
 /* ==================================
-   rafaInvest - JavaScript Principal
+   rafaInveste - JavaScript Principal
    SPA com Router e Dados Educacionais
    ================================== */
 
@@ -2126,7 +2126,7 @@ function showResult() {
             description: `
                 <p style="margin-bottom: 1rem;"><strong>Você está no caminho certo!</strong> 🚀</p>
                 <p style="margin-bottom: 1rem;">Conhece o básico mas ainda confunde algumas coisas (tipo achar que FII é um tipo de macarrão instantâneo 🍜). Mas relaxa, todo mundo começa assim! O importante é continuar aprendendo.</p>
-                <p><strong>Recomendação:</strong> Explore mais o rafaInvest, especialmente a seção de educação. Seu futuro eu agradece!</p>
+                <p><strong>Recomendação:</strong> Explore mais o rafaInveste, especialmente a seção de educação. Seu futuro eu agradece!</p>
             `
         };
     } else if (percentage >= 30) {
@@ -2148,7 +2148,7 @@ function showResult() {
             description: `
                 <p style="margin-bottom: 1rem;"><strong>Todo mundo começa de algum lugar!</strong> 💪</p>
                 <p style="margin-bottom: 1rem;">Você está no nível "achei que CDB era sigla de Cerveja, Diversão e... Bem, falta o B". Mas olha o lado positivo: você teve coragem de fazer o quiz! E a boa notícia é que só pode melhorar daqui pra frente! 📈</p>
-                <p><strong>Missão:</strong> Dedique 10 minutinhos por dia estudando os conceitos básicos. Em um mês você já será um investidor consciente! O rafaInvest está aqui pra te ajudar! 🚀</p>
+                <p><strong>Missão:</strong> Dedique 10 minutinhos por dia estudando os conceitos básicos. Em um mês você já será um investidor consciente! O rafaInveste está aqui pra te ajudar! 🚀</p>
             `
         };
     }

@@ -208,7 +208,7 @@
     <line x1="12" y1="8" x2="12.01" y2="8"/>
   </symbol>
 
-  <!-- Logo rafaInvest -->
+  <!-- Logo rafaInveste -->
   <symbol id="logo-rafa" viewBox="0 0 200 60" fill="none">
     <!-- Gráfico de linha estilizado -->
     <g stroke="url(#gradient-logo)" stroke-width="3" fill="none">
@@ -220,9 +220,9 @@
       <circle cx="55" cy="15" r="3.5" fill="url(#gradient-logo)"/>
     </g>
     
-    <!-- Texto rafaInvest -->
+    <!-- Texto rafaInveste -->
     <text x="65" y="35" font-family="Poppins, sans-serif" font-size="24" font-weight="700" fill="currentColor">
-      rafa<tspan fill="url(#gradient-logo)">Invest</tspan>
+      rafa<tspan fill="url(#gradient-logo)">Investe</tspan>
     </text>
     
     <!-- Badge "Beta" ou detalhe -->

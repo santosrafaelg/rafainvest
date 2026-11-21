@@ -1,5 +1,5 @@
 /* ===============================================
-   rafaInvest - Agente Consultor Financeiro IA
+   rafaInveste - Agente Consultor Financeiro IA
    Perplexity AI Integration with Conversation Memory
    =============================================== */
 
@@ -189,7 +189,7 @@ function addToHistory(role, content) {
     
     // Salva no sessionStorage
     try {
-        sessionStorage.setItem('rafaInvest_agent_history', JSON.stringify(conversationHistory));
+        sessionStorage.setItem('rafaInveste_agent_history', JSON.stringify(conversationHistory));
     } catch (e) {
         console.warn('Erro ao salvar histórico:', e);
     }
@@ -228,7 +228,7 @@ function getContextForAI() {
 
 function loadHistoryFromStorage() {
     try {
-        const data = sessionStorage.getItem('rafaInvest_agent_history');
+        const data = sessionStorage.getItem('rafaInveste_agent_history');
         if (data) {
             conversationHistory = JSON.parse(data);
         }
